@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts
+  resources :materials
   post 'refresh', controller: :refresh, action: :create
   post 'signin', controller: :signin, action: :create
   post 'signup', controller: :signup, action: :create
