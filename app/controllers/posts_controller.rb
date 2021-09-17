@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_user
   ROLES = %w[admin].freeze
+  before_action :set_user
   before_action :set_post, only: [:show, :update, :destroy]
 
   def index
