@@ -3,8 +3,8 @@ class Admin::UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: @users
-    # render json: @users.as_json(only: [:id, :email, :role])
+    # render json: @users
+    render json: @users.as_json(only: [:id, :email, :role])
   end
 
   def token_claims
