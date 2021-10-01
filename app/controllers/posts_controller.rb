@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
-  before_action :authorize_access_request!
-  ROLES = %w[admin].freeze
-  before_action :set_user
+  # before_action :authorize_access_request!
+  # before_action :set_user
+  # ROLES = %w[admin].freeze
   before_action :set_post, only: [:show, :update, :destroy]
+
 
   def index
     @posts = Post.all
@@ -15,7 +16,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    attach_main_pic(@post) if image_params[:image].present?
+    attach_pic(@post) if image_params[:image].present?
     if @post.save
       render json: @post, status: :created, location: @post, methods: [:image_url]
     else
@@ -24,7 +25,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    attach_main_pic(@post) if image_params[:image].present?
+    attach_pic(@post) if image_params[:image].present?
     if @post.update(post_params)
       render json: @post
     else
@@ -36,16 +37,16 @@ class PostsController < ApplicationController
     @post.destroy
   end
 
-  def token_claims
-    {
-      aud: ROLES,
-      verify_aud: true
-    }
-  end
+  # def token_claims
+  #   {
+  #     aud: ROLES,
+  #     verify_aud: true
+  #   }
+  # end
 
   private
-    def attach_main_pic(post)
-      post.image.attach(post_params[:image])
+    def attach_pic(post)
+      post.image.attach(image_params[:image])
     end
 
     def set_post
@@ -57,10 +58,10 @@ class PostsController < ApplicationController
     end
 
     def image_params
-      params.permit(:image, :id)
+      params.permit(:image)
     end
 
-    def set_user
-      @user = current_user
-    end
+    # def set_user
+    #   @user = current_user
+    # end
 end
