@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   include JWTSessions::RailsAuthorization
   rescue_from JWTSessions::Errors::Unauthorized, with: :not_authorized
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
-  # rescue_from JWTSessions::Errors::Expired, with: :expired
+  rescue_from JWTSessions::Errors::Expired, with: :expired
 
   private
 
@@ -19,6 +19,6 @@ class ApplicationController < ActionController::API
   end
 
   def expired
-    render json: { error: 'Expired' }, status: :unauthorized
+    render json: { error: 'Expired' }, status: :forbidden
   end
 end

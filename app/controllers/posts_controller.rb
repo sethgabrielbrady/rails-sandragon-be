@@ -1,9 +1,8 @@
 class PostsController < ApplicationController
-  # before_action :authorize_access_request!
-  # before_action :set_user
+  before_action :authorize_access_request!, only: [:update, :destroy]
   # ROLES = %w[admin].freeze
-  before_action :set_post, only: [:show, :update, :destroy]
-
+  # before_action :set_post, only: [:show, :update, :destroy]
+  before_action :set_post, only: [:show]
 
   def index
     @posts = Post.all
@@ -36,14 +35,12 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
   end
-
   # def token_claims
   #   {
   #     aud: ROLES,
   #     verify_aud: true
   #   }
   # end
-
   private
     def attach_pic(post)
       post.image.attach(image_params[:image])
@@ -61,7 +58,4 @@ class PostsController < ApplicationController
       params.permit(:image)
     end
 
-    # def set_user
-    #   @user = current_user
-    # end
 end

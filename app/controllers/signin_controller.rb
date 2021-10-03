@@ -1,5 +1,5 @@
 class SigninController < ApplicationController
-  before_action :authorize_access_request!, only: [:destroy]
+  before_action :authorize_by_access_header!, only: [:destroy]
 
   def create
     user = User.find_by!(email: params[:email])

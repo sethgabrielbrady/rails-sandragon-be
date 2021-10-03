@@ -1,6 +1,6 @@
 class MaterialsController < ApplicationController
-  # before_action :authorize_access_request!
-  before_action :set_material, only: [:show, :update, :destroy]
+  before_action :authorize_by_access_header!, only: [:create, :update, :destroy]
+  before_action :set_material, only: [:show]
 
   # GET /materials
   def index
