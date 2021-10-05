@@ -3,6 +3,6 @@ class UsersController < ApplicationController
 
   def me
     # render json: current_user
-    render json: current_user.as_json(only: [:id, :email, :role])
+    render json: current_user.as_json(only: [:id, :email, :role, :username])
   end
 end
