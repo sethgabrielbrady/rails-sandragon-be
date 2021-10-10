@@ -12,7 +12,7 @@ class MaterialsController < ApplicationController
 
   # GET /materials/1
   def show
-    render json: @material
+    render json: @material, methods: [:image_url]
   end
 
   # POST /materials/
