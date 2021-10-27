@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    render json: @post
+    render json: @post, methods: [:image_url]
   end
 
   def create
@@ -51,7 +51,7 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:title, :author, :body)
+      params.require(:post).permit(:title, :author, :body, :blurb)
     end
 
     def image_params
