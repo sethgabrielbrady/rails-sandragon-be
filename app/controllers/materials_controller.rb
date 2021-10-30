@@ -53,7 +53,7 @@ class MaterialsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def material_params
-      params.require(:material).permit(:title, :description, :blurb)
+      params.require(:material).permit(:title, :description, :blurb, :slug)
     end
 
     def image_params
