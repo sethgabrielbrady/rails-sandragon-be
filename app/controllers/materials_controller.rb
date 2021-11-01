@@ -29,6 +29,7 @@ class MaterialsController < ApplicationController
   # PATCH/PUT /materials/1
   def update
     attach_pic(@material) if image_params[:image].present?
+    @material.falsify_any_active
 
     if @material.update(material_params)
       render json: @material
@@ -53,7 +54,7 @@ class MaterialsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def material_params
-      params.require(:material).permit(:title, :description, :blurb, :slug)
+      params.require(:material).permit(:title, :description, :blurb, :slug, :active)
     end
 
     def image_params
