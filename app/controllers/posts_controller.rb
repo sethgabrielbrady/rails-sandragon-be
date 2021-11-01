@@ -25,6 +25,8 @@ class PostsController < ApplicationController
 
   def update
     attach_pic(@post) if image_params[:image].present?
+    @post.falsify_any_active
+
     if @post.update(post_params)
       render json: @post
     else
@@ -51,7 +53,7 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:title, :author, :body, :blurb, :slug)
+      params.require(:post).permit(:title, :author, :body, :blurb, :slug, :active)
     end
 
     def image_params
