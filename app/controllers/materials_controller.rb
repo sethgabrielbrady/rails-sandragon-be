@@ -12,12 +12,13 @@ class MaterialsController < ApplicationController
 
   # GET /materials/1
   def show
-    render json: @material
+    render json: @material, methods: [:image_url]
   end
 
   # POST /materials/
   def create
     @material = Material.new(material_params)
+    attach_pic(@post) if image_params[:image].present?
     if @material.save
       render json: @material, status: :created, location: @material, methods: [:image_url]
     else
@@ -27,7 +28,8 @@ class MaterialsController < ApplicationController
 
   # PATCH/PUT /materials/1
   def update
-    attach_pic(@material) if pic_params[:image].present?
+    attach_pic(@material) if image_params[:image].present?
+    @material.falsify_any_active
 
     if @material.update(material_params)
       render json: @material
@@ -43,7 +45,7 @@ class MaterialsController < ApplicationController
 
   private
     def attach_pic(material)
-      material.image.attach(pic_params[:image])
+      material.image.attach(image_params[:image])
     end
 
     def set_material
@@ -52,10 +54,10 @@ class MaterialsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def material_params
-      params.require(:material).permit(:title, :description)
+      params.require(:material).permit(:title, :description, :blurb, :slug, :active)
     end
 
-    def pic_params
+    def image_params
       params.permit(:image, :id);
     end
 end
