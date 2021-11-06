@@ -1,15 +1,35 @@
 class Admin::UsersController < ApplicationController
   before_action :authorize_access_request!
-  ROLES = %w[admin].freeze
+  before_action :set_user, only: [:show, :update]
+  VIEW_ROLES = %w[admin manager].freeze
+  EDIT_ROLES = %w[admin].freeze
+  # ROLES = %w[admin].freeze
+
 
   def index
     @users = User.all
-    render json: @users.as_json(only: [:id, :email, :role, :username])
+    # render json: @users.as_json(only: [:id, :email, :role, :username])
+    render json: @users
+  end
+
+  def show
+    render json: @user
+  end
+
+  def update
+    if current_user.id != @user.id
+      @user.update!(user_params)
+      JWTSessions::Session.new(namespace: "user_#{@user.id}").flush_namespaced_access_tokens
+      render json: @user
+    else
+      render json: { error: 'Admin cannot modify their own role' }, status: :bad_request
+    end
   end
 
   def token_claims
     {
-      aud: ROLES,
+      aud: allowed_aud,
+      # aud: ROLES,
       verify_aud: true
     }
   end

@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   resources :posts
   resources :materials
 
+  resources :password_resets, only: [:create] do
+    collection do
+      get ':token', action: :edit, as: :edit
+      patch ':token', action: :update
+    end
+  end
 
   namespace :api do
     namespace :v1 do
