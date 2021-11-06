@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(version: 2021_10_31_020406) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "role", default: 0
     t.string "username"
+    t.string "reset_password_token"
+    t.datetime "reset_password_token_expires_at"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
