@@ -10,6 +10,8 @@ class SignupController < ApplicationController
                                          namespace: "user_#{user.id}")
       tokens = session.login
 
+      UserMailer.signup_confirmation(user).deliver_now
+
       response.set_cookie(JWTSessions.access_cookie,
                           value: tokens[:access],
                           httponly: true,
