@@ -1,5 +1,5 @@
 class SignupController < ApplicationController
-  KEYS = [:email, :password, :password_confirmation].freeze
+  KEYS = [:email, :password, :password_confirmation, :username].freeze
 
   def create
     user = User.new(user_params)
