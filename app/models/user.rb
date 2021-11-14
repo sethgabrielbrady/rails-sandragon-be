@@ -10,7 +10,9 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP },
             uniqueness: { case_sensitive: false }
 
-  validates :username, length: { in: 2...20 }, # or { maximum: 500 } or { in: 6..20 } or { is: 6 }
+  USERNAME_FORMAT = /\A(?=.{2,20}\z)[a-zA-Z0-9]+(?:[._][a-zA-Z0-9]+)*\z/
+
+  validates :username,  format: { with: USERNAME_FORMAT },
             uniqueness: true
 
   PASSWORD_FORMAT = /\A
