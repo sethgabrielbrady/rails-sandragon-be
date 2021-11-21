@@ -1,6 +1,5 @@
 class MaterialsController < ApplicationController
   # before_action :authorize_by_access_header!, only: [:create, :update, :destroy]
-  # before_action :set_material, only: [:show]
   before_action :set_material, only: [:show, :update, :destroy]
 
 

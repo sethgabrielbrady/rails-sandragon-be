@@ -2,7 +2,6 @@ class PostsController < ApplicationController
   # before_action :authorize_access_request!, only: [:update, :destroy]
   # ROLES = %w[admin].freeze
   before_action :set_post, only: [:show, :update, :destroy]
-  # before_action :set_post, only: [:show]
 
   def index
     @posts = Post.all
@@ -59,5 +58,4 @@ class PostsController < ApplicationController
     def image_params
       params.permit(:image)
     end
-
 end
