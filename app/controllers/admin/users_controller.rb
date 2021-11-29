@@ -3,8 +3,6 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update]
   VIEW_ROLES = %w[admin manager].freeze
   EDIT_ROLES = %w[admin].freeze
-  # ROLES = %w[admin].freeze
-
 
   def index
     @users = User.all
@@ -28,7 +26,6 @@ class Admin::UsersController < ApplicationController
   def token_claims
     {
       aud: allowed_aud,
-      # aud: ROLES,
       verify_aud: true
     }
   end
