@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
-  # before_action :authorize_access_request!, only: [:update, :destroy]
+  before_action :authorize_access_request!, only: [:update, :destroy]
   # ROLES = %w[admin].freeze
+  # VIEW_ROLES = %w[admin].freeze
+  # EDIT_ROLES = %w[admin].freeze
   before_action :set_post, only: [:show, :update, :destroy]
 
   def index
@@ -36,13 +38,20 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
   end
-  # def token_claims
-  #   {
-  #     aud: ROLES,
-  #     verify_aud: true
-  #   }
-  # end
+
+  def token_claims
+    {
+      aud: allowed_aud,
+      verify_aud: true
+    }
+  end
+
   private
+
+    def allowed_aud
+      action_name == 'update' ? EDIT_ROLES : VIEW_ROLES
+    end
+
     def attach_pic(post)
       post.image.attach(image_params[:image])
     end

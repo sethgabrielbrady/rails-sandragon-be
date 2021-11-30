@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   before_action :authorize_access_request!
   before_action :set_user, only: [:show, :update]
-  VIEW_ROLES = %w[admin manager].freeze
+  VIEW_ROLES = %w[admin].freeze
   EDIT_ROLES = %w[admin].freeze
 
   def index
@@ -31,7 +31,6 @@ class Admin::UsersController < ApplicationController
   end
 
   private
-
     def allowed_aud
       action_name == 'update' ? EDIT_ROLES : VIEW_ROLES
     end
