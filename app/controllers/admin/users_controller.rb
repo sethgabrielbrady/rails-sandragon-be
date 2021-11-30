@@ -31,7 +31,6 @@ class Admin::UsersController < ApplicationController
   end
 
   private
-    #This might not be used anymore ???
     def allowed_aud
       action_name == 'update' ? EDIT_ROLES : VIEW_ROLES
     end
