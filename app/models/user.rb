@@ -3,14 +3,14 @@ class User < ApplicationRecord
   has_secure_password
 
   enum role: %i[user admin].freeze
-  validates :password, :email, :username, presence: true
+  validates :password, :email, :username, presence: true, on: :create
   validates :email,
             format: { with: URI::MailTo::EMAIL_REGEXP },
             uniqueness: { case_sensitive: false }
 
   USERNAME_FORMAT = /\A(?=.{2,20}\z)[a-zA-Z0-9]+(?:[._][a-zA-Z0-9]+)*\z/
   validates :username,  format: { with: USERNAME_FORMAT },
-            uniqueness: true
+            uniqueness: true, on: :create
 
   PASSWORD_FORMAT = /\A
     (?=.{8,})          # Must contain 8 or more characters
@@ -20,8 +20,8 @@ class User < ApplicationRecord
     (?=.*[[:^alnum:]]) # Must contain a symbol
   /x
 
-  validates :password, format: { with: PASSWORD_FORMAT }
-  validates :terms_of_service, acceptance: true
+  validates :password, format: { with: PASSWORD_FORMAT }, on: :create
+  validates :terms_of_service, acceptance: true, on: :create
 
   def attributes
     { id: id, email: email, role: role, username: username}
