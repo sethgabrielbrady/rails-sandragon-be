@@ -15,7 +15,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     if current_user.id != @user.id
-      @user.update!(user_params)
+      @user.update(user_params)
       JWTSessions::Session.new(namespace: "user_#{@user.id}").flush_namespaced_access_tokens
       render json: @user
     else
