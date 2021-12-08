@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include ActiveModel::Serializers::JSON
   has_secure_password
+  has_one_attached :image
 
   enum role: %i[user admin].freeze
   validates :password, :email, :username, presence: true, on: :create
@@ -22,6 +23,7 @@ class User < ApplicationRecord
 
   validates :password, format: { with: PASSWORD_FORMAT }, on: :create
   validates :terms_of_service, acceptance: true, on: :create
+  validate :acceptable_image
 
   def attributes
     { id: id, email: email, role: role, username: username}
@@ -55,6 +57,29 @@ class User < ApplicationRecord
     self.signup_confirmation = nil
     self.signup_confirmation_expires_at = nil
     save!
+  end
+
+  def image_url
+    image.attached? ? url_for(image) : nil
+  end
+
+  def falsify_any_active
+    if self.active
+        self.class.where('id != ? and active', self.id).update_all("active = 'false'")
+    end
+  end
+
+  def acceptable_image
+    return unless image.attached?
+
+    unless image.byte_size <= 1.megabyte
+      errors.add(:main_image, "is too big")
+    end
+
+    acceptable_types = ["image/jpeg", "image/png"]
+    unless acceptable_types.include?(image.content_type)
+      errors.add(:mage, "must be a JPEG or PNG")
+    end
   end
 
 end

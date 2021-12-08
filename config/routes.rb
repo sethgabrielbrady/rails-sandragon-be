@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :posts
   resources :materials
+  resources :users, only: [:update]
 
   resources :password_resets, only: [:create] do
     collection do
