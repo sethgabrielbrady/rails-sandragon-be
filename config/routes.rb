@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   delete 'signin', controller: :signin, action: :destroy
   get 'me', controller: :users, action: :me
 
+
   resources :posts
   resources :materials
-  resources :users, only: [:update]
+  resources :users,  only: [:show, :update]
 
   resources :password_resets, only: [:create] do
     collection do

@@ -1,5 +1,5 @@
 class MaterialsController < ApplicationController
-  # before_action :authorize_by_access_header!, only: [:create, :update, :destroy]
+  before_action :authorize_access_request!, only: [:create, :update, :destroy]
   EDIT_ROLES = %w[admin].freeze
   VIEW_ROLES = %w[admin].freeze
   before_action :set_material, only: [:show, :update, :destroy]
