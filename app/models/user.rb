@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   include ActiveModel::Serializers::JSON
-  has_secure_password
+  include Rails.application.routes.url_helpers
   has_one_attached :image
+  has_secure_password
 
   enum role: %i[user admin].freeze
   validates :password, :email, :username, presence: true, on: :create

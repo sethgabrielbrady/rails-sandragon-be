@@ -1,6 +1,5 @@
 class PostsController < ApplicationController
-  # before_action :authorize_access_request!, only: [:update, :destroy]
-  # ROLES = %w[admin].freeze
+  before_action :authorize_access_request!, only: [:create, :update, :destroy]
   VIEW_ROLES = %w[admin].freeze
   EDIT_ROLES = %w[admin].freeze
   before_action :set_post, only: [:show, :update, :destroy]

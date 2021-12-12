@@ -1,16 +1,17 @@
 class UsersController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_user, only: [:update]
 
   def me
     render json: current_user
   end
 
   def show
-    render json: @user
+    @user = User.find(params[:id])
+    render json: @user, methods: [:image_url]
   end
 
   def update
+    @user = User.find(params[:id])
     attach_pic(@user) if image_params[:image].present?
     if @user.update(user_params)
       render json: @user
@@ -20,10 +21,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
 
   def attach_pic(user)
     user.image.attach(image_params[:image])
