@@ -27,7 +27,7 @@ class User < ApplicationRecord
   validate :acceptable_image
 
   def attributes
-    { id: id, email: email, role: role, username: username}
+    { id: id, email: email, role: role, username: username, image_url: image_url}
   end
 
   def generate_password_token!
