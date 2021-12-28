@@ -7,13 +7,13 @@ class MaterialsController < ApplicationController
   # GET /materials
   def index
     @materials = Material.all
-    render json: @materials, methods: [:image_url]
+    render json: @materials, methods: [:image_url, :file_url]
     # render json: @materials, methods: [:image_url, :file_url]
   end
 
   # GET /materials/1
   def show
-    render json: @material, methods: [:image_url]
+    render json: @material, methods: [:image_url, :file_url]
     # render json: @material, methods: [:image_url, :file_url]
   end
 
@@ -21,10 +21,10 @@ class MaterialsController < ApplicationController
   def create
     @material = Material.new(material_params)
     attach_pic(@material) if image_params[:image].present?
-    # attach_file(@material) if file_params[:file].present?
+    attach_file(@material) if file_params[:file].present?
     if @material.save
-      render json: @material, status: :created, location: @material, methods: [:image_url]
-      # render json: @material, status: :created, location: @material, methods: [:image_url, :file_url]
+      # render json: @material, status: :created, location: @material, methods: [:image_url]
+      render json: @material, status: :created, location: @material, methods: [:image_url, :file_url]
     else
       render json: @material.errors, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class MaterialsController < ApplicationController
 
   # PATCH/PUT /materials/1
   def update
-    # attach_file(@material) if file_params[:file].present?
+    attach_file(@material) if file_params[:file].present?
     attach_pic(@material) if image_params[:image].present?
     @material.falsify_any_active
 
@@ -65,9 +65,9 @@ class MaterialsController < ApplicationController
       material.image.attach(image_params[:image])
     end
 
-    # def attach_file(material)
-    #   material.file.attach(file_params[:file])
-    # end
+    def attach_file(material)
+      material.file.attach(file_params[:file])
+    end
 
     def set_material
       @material = Material.find(params[:id])
@@ -75,14 +75,14 @@ class MaterialsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def material_params
-      params.require(:material).permit(:title, :description, :blurb, :slug, :active, :image)
+      params.require(:material).permit(:title, :description, :blurb, :slug, :active, :image, :file)
     end
 
     def image_params
       params.permit(:image);
     end
 
-    # def file_params
-    #   params.permit(:file);
-    # end
+    def file_params
+      params.permit(:file);
+    end
 end
