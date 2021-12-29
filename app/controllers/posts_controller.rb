@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
-  before_action :authorize_access_request!, only: [:create, :update, :destroy]
+  # before_action :authorize_access_request!, only: [:create, :update, :destroy]
+  before_action :set_post, only: [:show, :update, :destroy]
   VIEW_ROLES = %w[admin].freeze
   EDIT_ROLES = %w[admin].freeze
-  before_action :set_post, only: [:show, :update, :destroy]
 
   def index
     @posts = Post.all
