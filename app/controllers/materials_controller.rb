@@ -1,8 +1,8 @@
 class MaterialsController < ApplicationController
-  before_action :authorize_access_request!, only: [:create, :update, :destroy]
+  # before_action :authorize_access_request!, only: [:create, :update, :destroy]
+  before_action :set_material, only: [:show, :update, :destroy]
   EDIT_ROLES = %w[admin].freeze
   VIEW_ROLES = %w[admin].freeze
-  before_action :set_material, only: [:show, :update, :destroy]
 
   # GET /materials
   def index
@@ -34,7 +34,7 @@ class MaterialsController < ApplicationController
   def update
     attach_file(@material) if file_params[:file].present?
     attach_pic(@material) if image_params[:image].present?
-    @material.falsify_any_active
+    # @material.falsify_any_active
 
     if @material.update(material_params)
       render json: @material
@@ -75,7 +75,7 @@ class MaterialsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def material_params
-      params.require(:material).permit(:title, :description, :blurb, :slug, :active, :image, :file)
+      params.require(:material).permit(:title, :description, :blurb, :slug, :active, :id)
     end
 
     def image_params
