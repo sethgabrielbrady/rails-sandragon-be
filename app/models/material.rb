@@ -1,10 +1,16 @@
 class Material < ApplicationRecord
   include Rails.application.routes.url_helpers
   has_one_attached :image
+  has_one_attached :file
+
   validate :acceptable_image
 
   def image_url
     image.attached? ? url_for(image) : nil
+  end
+
+  def file_url
+    file.attached? ? url_for(file) : nil
   end
 
   def falsify_any_active
